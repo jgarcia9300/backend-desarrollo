@@ -1,0 +1,33 @@
+body {
+    font-family: 'Overpass', sans-serif;
+    font-weight: normal;
+    font-size: 100%;
+    color: #1b262c;
+    margin: 0;
+    
+}
+
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between ;
+    padding-top: 20px;
+    padding-left: 5%;
+    padding-right: 5%;
+    font-weight: 15px ;
+    background-color: #0f4c75;
+}
+
+ul li{
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+a{
+    color: white;
+    font-size: 21px;
+    text-decoration: none;
+}
+a:hover{
+    color: aqua;
+}
