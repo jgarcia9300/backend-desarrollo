@@ -23,5 +23,5 @@ urlpatterns = [
     path('homeGerente/',homeGerente,name='homeGerente'),
     path('homeDirector/',homeDirector,name='homeDirector'),
     path ('logout/',exit, name='exit'),
-
+    path('group/capataz/users/', group_users, name='group_users'),
 ]

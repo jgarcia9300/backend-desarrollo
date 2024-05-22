@@ -1,6 +1,7 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.contrib.auth.models import Group
 
 
 @login_required
@@ -31,8 +32,10 @@ def exit(request):
     logout(request)
     return redirect('home')
 
-
-
+def group_users(request):
+    group = get_object_or_404(Group, name='Capataz')
+    users = group.user_set.all()
+    return render(request, 'core/group_users.html', {'group': group, 'users': users})
 
 
 
