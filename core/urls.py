@@ -15,13 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import *
+from .views import * #Se importan todos los def del archivo views
  
 urlpatterns = [
-    path('',home, name='home'),
-    path('homeCapataz/',homeCapataz, name='homeCapataz'),
-    path('homeGerente/',homeGerente,name='homeGerente'),
-    path('homeDirector/',homeDirector,name='homeDirector'),
-    path ('logout/',exit, name='exit'),
-    path('group/capataz/users/', group_users, name='group_users'),
+    path('',home, name='home'), #Url vacia, esto significa que cuando se ingresa a la pagina principal sin ninguna extencion se abre el home
+    path('homeCapataz/',homeCapataz, name='homeCapataz'), # Url para acceder al home de los capataz
+    path('homeGerente/',homeGerente,name='homeGerente'),# Url para acceder al home del Gerente
+    path('homeDirector/',homeDirector,name='homeDirector'),# Url para acceder al home del Director
+    path ('logout/',exit, name='exit'), #URL que realiza el logout
+    path('group/capataz/users/', group_users, name='group_users'), #URL en prueba para listar usuarios
 ]

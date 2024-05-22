@@ -17,8 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+#Aqui se configuran los urls de administrador, y se importan las urls de la carpeta core, 
 urlpatterns = [
-    path('',include('core.urls')),
-    path('admin/', admin.site.urls),
-    path('accounts/',include('django.contrib.auth.urls')),
+    path('',include('core.urls')), #al usuario ingresar directamente va a las urls asignadas en la carpeta core
+    path('admin/', admin.site.urls), #Por defecto de Django
+    path('accounts/',include('django.contrib.auth.urls')), #Por defecto de Django
 ]
