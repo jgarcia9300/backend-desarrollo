@@ -1,0 +1,19 @@
+#problemas socket
+net stop hns 
+net start hns
+
+#Tener instalado python 3.12.3
+pipenv install
+pipenv shell
+pipenv install django
+pipenv install psycopg2
+
+#Para instalar todo lo que aparezca en requirements
+pipenv install -r ./requiremnts.txt
+
+-----------
+pip freeze #revisar las dependencias instaladas en el entorno virtual
+pipenv lock #bloquea las versiones de las dependencias para deploy
+pipenv install --ignore-pipfile #instala las dependencias bloqueadas
+
+https://www.youtube.com/watch?v=6Qmnh5C4Pmo
