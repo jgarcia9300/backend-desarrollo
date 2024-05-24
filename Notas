@@ -1,0 +1,5 @@
+Corriendo desde entorno virtual
+ pip3 install pipenv
+  pipenv install   
+  pipenv_shell      
+  Hola
