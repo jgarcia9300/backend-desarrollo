@@ -9,9 +9,15 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
-from pathlib import Path
 import os
+import environ
+from pathlib import Path
+
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -78,25 +84,27 @@ WSGI_APPLICATION = 'proyectoDS.wsgi.application'
     # #usando supabase
 # DATABASES = {
 
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'postgres',
-    #     'USER': 'postgres.smsiqetnxftrjprppbth',
-    #     'PASSWORD': 'Desarrollo24',
-    #     'HOST': 'aws-0-us-west-1.pooler.supabase.com',  # o la dirección de tu servidor de base de datos
-    #     'PORT': '5432',
-    # }
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'postgres.smsiqetnxftrjprppbth',
+#         'PASSWORD': 'Desarrollo24',
+#         'HOST': 'aws-0-us-west-1.pooler.supabase.com',  # o la dirección de tu servidor de base de datos
+#         'PORT': '5432',
+#       }
+#     }
+
 
     #usando postgresql local
 DATABASES = {
     #trayendo las variables de entorno definidas en el archivo .env
-       'default': {
+      'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_USER_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-}
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_USER_PASSWORD'),
+        'HOST': env('DB_HOST'),
+    }
    }
 
 # Password validation
