@@ -88,6 +88,36 @@
         </div>
       </div>
 
+          <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Registro de usuarios</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              {% load crispy_forms_tags %} 
+              <br>
+              <form id="register-form" action="" method="post"> <!--Se crea un formulario el cual sera con la claase card de Boostrap-->
+                                                <!--El metodo POST es el encargador de hacer que este formulario tenga las propiedades para obtener lo que se ingresa-->
+              {% csrf_token %} <!--Token de validacion-->
+              <div class="card mx-auto" style="width: 30rem;">
+              <div class="card-body">
+               <h5 class="card-title">Complete todos los campos</h5>
+              {{ form|crispy }} <!--Se aplica el formulario con la libreria Crispy la cual recolecta un formulario basado en los predeterminados de HTML-->
+              <button class="btn btn-sm btn-primary aling-items-center" type="submit">Registrar Usuario</button> <!-- Este boton es el encargador de registrar los datos rellenados en el formulario en la base de datos-->
+          </div>
+  </div>
+</form>
+          </div>
+          <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+      </div>
+      </div>
+  </div>
+
       <script src="{% static 'java/app.js' %}"></script>
     {% endblock %}
   </body>
