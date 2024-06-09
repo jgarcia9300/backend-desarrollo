@@ -1,124 +1,116 @@
 {% extends 'frontend/Gerente/base.html' %}
-{% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Panel | Tivotal</title>
+{% block content %}
+<div class="table-data">
+  <div class="order">
+    <div class="head">
+      <h3>Usuarios Capataz</h3>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Registrar
+        Usuario</button>
 
-    <!--font awesome-->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-
-    <!--css file-->
-    <link rel="stylesheet" href="{% static 'css/prueba.css' %}" />
-  </head>
-  <body>
-    {% block content %}
-      <div class="table-data">
-        <div class="order">
-          <div class="head">
-            <h3>Usuarios Capataz</h3>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Registrar Usuario</button>
-            <i class="fas fa-search"></i>
-            <i class="fas fa-filter"></i>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>Usuario</th>
-                <th>Nombre</th>
-                <th>ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for user in users_capataz %}
-                <tr>
-                  <td>
-                    <p>{{ user.username }}</p>
-                  </td>
-                  <td>
-                    {{ user.first_name }}
-                  </td>
-                  <td>
-                    {{ user.id }}
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-
-        <div class="order">
-          <div class="head">
-            <h3>Usuarios Gerente</h3>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Registrar Usuario</button>
-            <i class="fas fa-search"></i>
-            <i class="fas fa-filter"></i>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>Usuario</th>
-                <th>Nombre</th>
-                <th>ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for user in users_gerente %}
-                <tr>
-                  <td>
-                    <p>{{ user.username }}</p>
-                  </td>
-                  <td>
-                    {{ user.first_name }}
-                  </td>
-                  <td>
-                    {{ user.id }}
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-          <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Registro de usuarios</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              {% load crispy_forms_tags %} 
-              <br>
-              <form id="register-form" action="" method="post"> <!--Se crea un formulario el cual sera con la claase card de Boostrap-->
-                                                <!--El metodo POST es el encargador de hacer que este formulario tenga las propiedades para obtener lo que se ingresa-->
-              {% csrf_token %} <!--Token de validacion-->
-              <div class="card mx-auto" style="width: 30rem;">
-              <div class="card-body">
-               <h5 class="card-title">Complete todos los campos</h5>
-              {{ form|crispy }} <!--Se aplica el formulario con la libreria Crispy la cual recolecta un formulario basado en los predeterminados de HTML-->
-              <button class="btn btn-sm btn-primary aling-items-center" type="submit">Registrar Usuario</button> <!-- Este boton es el encargador de registrar los datos rellenados en el formulario en la base de datos-->
-          </div>
-  </div>
-</form>
-          </div>
-          <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-      </div>
-      </div>
+      <!-- Formulario de búsqueda para Usuarios Capataz -->
+      <form action="{% url 'homeGerente' %}" method="GET" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search"
+          name="search_capataz" value="{{ request.GET.search_capataz }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Nombre</th>
+          <th>ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users_capataz %}
+        <tr>
+          <td>
+            <p>{{ user.username }}</p>
+          </td>
+          <td>
+            {{ user.first_name }}
+          </td>
+          <td>
+            {{ user.id }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 
-      <script src="{% static 'java/app.js' %}"></script>
-    {% endblock %}
-  </body>
-</html>
+  <div class="order">
+    <div class="head">
+      <h3>Usuarios Gerente</h3>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Registrar
+        Usuario</button>
+
+      <!-- Formulario de búsqueda para Usuarios Gerente -->
+      <form action="{% url 'homeGerente' %}" method="GET" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search"
+          name="search_director" value="{{ request.GET.search_director }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Nombre</th>
+          <th>ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users_gerente %}
+        <tr>
+          <td>
+            <p>{{ user.username }}</p>
+          </td>
+          <td>
+            {{ user.first_name }}
+          </td>
+          <td>
+            {{ user.id }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Registro de usuarios</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% load crispy_forms_tags %}
+        <br>
+        <form id="register-form" action="" method="post">
+          {% csrf_token %}
+          <div class="card mx-auto" style="width: 30rem;">
+            <div class="card-body">
+              <h5 class="card-title">Complete todos los campos</h5>
+              {{ form|crispy }}
+              <button class="btn btn-sm btn-primary aling-items-center" type="submit">Registrar Usuario</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

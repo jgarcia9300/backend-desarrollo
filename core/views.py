@@ -22,24 +22,36 @@ def homeCapataz(request): #Pagina de inicio de los Capataz
         return render(request,'frontend/homeCapataz.html')
 
 @login_required
-def homeGerente(request): #Pagina de inicio del gerente
-
+def homeGerente(request):
+    # Obtener los grupos y sus usuarios
     group_Director = get_object_or_404(Group, name='Director')
     users_Director = group_Director.user_set.all()
 
     group_Capataz = get_object_or_404(Group, name='Capataz')
     users_Capataz = group_Capataz.user_set.all()
 
-    if request.user.is_superuser: #Si el usuario que realiza el logueo es superuser entonces entra al homeGerente
-        if request.method == 'POST': #se define que si el metodo es igual a POST se realizara 
+    # Obtener los términos de búsqueda
+    search_query_director = request.GET.get('search_director', '')
+    search_query_capataz = request.GET.get('search_capataz', '')
+
+    # Filtrar los usuarios según los términos de búsqueda
+    if search_query_director:
+        users_Director = users_Director.filter(username__icontains=search_query_director)
+    
+    if search_query_capataz:
+        users_Capataz = users_Capataz.filter(username__icontains=search_query_capataz)
+
+    if request.user.is_superuser:  # Verificar si el usuario es superuser
+        if request.method == 'POST':
             form = CustomUserCreationForm(request.POST)
             if form.is_valid():
-                user = form.save() #guarda los datos
-                group = form.cleaned_data['group'] 
-                group.user_set.add(user) #Se añade el usuario al grupo
+                user = form.save()  # Guardar el nuevo usuario
+                group = form.cleaned_data['group']
+                group.user_set.add(user)  # Añadir el usuario al grupo
                 return redirect('homeGerente')
         else:
             form = CustomUserCreationForm()
+
         return render(request, 'frontend/Gerente/homeGerente.html', {
             'group_capataz': group_Capataz,
             'users_capataz': users_Capataz,
