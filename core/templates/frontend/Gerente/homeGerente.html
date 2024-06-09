@@ -1,0 +1,94 @@
+{% extends 'frontend/Gerente/base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel | Tivotal</title>
+
+    <!--font awesome-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!--css file-->
+    <link rel="stylesheet" href="{% static 'css/prueba.css' %}" />
+  </head>
+  <body>
+    {% block content %}
+      <div class="table-data">
+        <div class="order">
+          <div class="head">
+            <h3>Usuarios Capataz</h3>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Registrar Usuario</button>
+            <i class="fas fa-search"></i>
+            <i class="fas fa-filter"></i>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users_capataz %}
+                <tr>
+                  <td>
+                    <p>{{ user.username }}</p>
+                  </td>
+                  <td>
+                    {{ user.first_name }}
+                  </td>
+                  <td>
+                    {{ user.id }}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="order">
+          <div class="head">
+            <h3>Usuarios Gerente</h3>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Registrar Usuario</button>
+            <i class="fas fa-search"></i>
+            <i class="fas fa-filter"></i>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users_gerente %}
+                <tr>
+                  <td>
+                    <p>{{ user.username }}</p>
+                  </td>
+                  <td>
+                    {{ user.first_name }}
+                  </td>
+                  <td>
+                    {{ user.id }}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <script src="{% static 'java/app.js' %}"></script>
+    {% endblock %}
+  </body>
+</html>
