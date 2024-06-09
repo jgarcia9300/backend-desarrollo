@@ -1,0 +1,140 @@
+{% extends 'frontend/Gerente/base.html' %}
+
+{% block head %}
+
+
+
+<!-- Aquí incluye el CSS directamente -->
+<style>
+    * {
+        box-sizing: border-box;
+        background-color: #eee;
+    }
+
+    body {
+        background-color: #eee;
+    }
+
+    .left {
+        max-width: 500px;
+        border: 1px solid #000;
+        padding: 20px;
+        float: left;
+    }
+
+    select {
+        display: inline-block;
+        margin-bottom: 20px;
+        padding: 5px;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    input {
+        display: inline-block;
+        border: none;
+        border-bottom: 1px solid #88d498;
+        margin-bottom: 10px;
+        width: 100%;
+        padding: 5px;
+        outline: none;
+    }
+
+    #titulo {
+        font-weight: bold;
+    }
+
+    .dato .serie {
+        width: 70%;
+        margin-right: 15px;
+    }
+
+    .dato .valor {
+        width: 20%;
+    }
+
+    .agregar {
+        display: inline-block;
+        height: 30px;
+        width: 30px;
+        background-color: #18936f;
+        border: none;
+        color: #fff;
+        border-radius: 50%;
+        font-size: 20px;
+        margin-top: 15px;
+        cursor: pointer;
+    }
+
+    .crear-grafico {
+        float: right;
+        background-color: #18936f;
+        border: none;
+        padding: 10px;
+        color: #fff;
+        margin-top: 15px;
+        cursor: pointer;
+    }
+
+    .right {
+        float: left;
+        border: 1px solid #000;
+        max-width: 605px;
+        margin-left: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">Generador de Gráficos</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <form>
+                    <div class="form-group">
+                        <label for="tipo">Tipo de Gráfico</label>
+                        <select class="form-control" id="tipo">
+                            <option value="circular">Gráfico Circular</option>
+                            <option value="columna">Gráfico de Columnas</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="titulo">Título del Gráfico</label>
+                        <input type="text" class="form-control" id="titulo" placeholder="Título del Gráfico">
+                    </div>
+
+                    <div id="datos">
+                        <div class="form-row dato">
+                            <div class="col">
+                                <input type="text" class="form-control mb-2 serie" placeholder="Leyenda 1">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control mb-2 valor" placeholder="Valor 1">
+                            </div>
+                        </div>
+                        <div class="form-row dato">
+                            <div class="col">
+                                <input type="text" class="form-control mb-2 serie" placeholder="Leyenda 2">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control mb-2 valor" placeholder="Valor 2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" onclick="agregarDato()" class="btn btn-primary my-2">Agregar Dato</button>
+                    <button type="button" onclick="cargarGrafico()" class="btn btn-success my-2">Crear Gráfico</button>
+                </form>
+            </div>
+
+            <div class="col-md-6">
+                <div id="piechart" class="border p-3"></div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

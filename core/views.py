@@ -57,9 +57,26 @@ def exit(request): # el exit define que el usuario cerro sesión y redirige al h
     logout(request)
     return redirect('home')
 
+
+@login_required
 def group_users(request): #Esta es una prueba para listar usuarios pertenecientes a un grupo, aun no esta lista
     group = get_object_or_404(Group, name='Capataz')
     users = group.user_set.all()
+    search_query = request.GET.get('search', '')
+
+    if search_query:
+        users = users.filter(username__icontains=search_query)
+
+    elif request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        try:
+            user = User.objects.get(id=user_id)
+            user.delete()
+            # Redirige a donde quieras después de eliminar el usuario
+            return redirect('group_users')
+        except User.DoesNotExist:
+            # Manejar el caso donde el usuario no existe
+            pass
     return render(request, 'frontend/Gerente/group_users.html', {'group': group, 'users': users})
 
 
@@ -71,8 +88,9 @@ def dashboard(request):
     
         return render(request,'frontend/Gerente/dashboard.html')
 
-
-
+def graficas(request): 
+    
+        return render(request,'frontend/Gerente/graficas.html')
 
 
 
