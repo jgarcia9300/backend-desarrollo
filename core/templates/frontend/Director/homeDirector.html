@@ -3,38 +3,6 @@
 {% block content %}
 
 <body>
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <div class="table-responsive">
-                    <table id="datatable-programmers" class="table">
-                        <caption>
-                            Django + DataTable.js
-                        </caption>
-                        <thead>
-                            {% for user in all_user %}
-                            <tr>
-                                <td>
-                                    <p>{{ user.username }}</p>
-                                </td>
-                                <td>
-                                    {{ user.first_name }}
-                                </td>
-                                <td>
-                                    {{ user.id }}
-                                </td>
-                                <td>
-                                    {{ user.groups.first.name }}  <!-- Obtiene el nombre del primer grupo al que pertenece el usuario -->
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </thead>
-                        <tbody id="tableBody_programmers"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
     <table id="example" class="table table-striped" style="width: 100;">
         <thead>
           <tr>
@@ -45,7 +13,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for user in all_user %}
+          {% for user in users_capataz %}
           <tr>
               <td>
                   <p>{{ user.username }}</p>
@@ -57,7 +25,7 @@
                   {{ user.id }}
               </td>
               <td>
-                  {{ user.groups.first.name }}  <!-- Obtiene el nombre del primer grupo al que pertenece el usuario -->
+                  {{ group.name }}  <!-- Obtiene el nombre del primer grupo al que pertenece el usuario -->
               </td>
           </tr>
           {% endfor %}
