@@ -1,0 +1,32 @@
+{% extends 'frontend/Director/base.html' %}
+
+{% block content %}
+
+<h1>Añadir una Nueva Obra</h1>
+    <form method="post" action="{% url 'añadir_obras' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="idObra">ID Obra:</label>
+        <input type="text" id="idObra" name="idObra" required><br><br>
+        
+        <label for="idUsuario">ID Usuario:</label>
+        <input type="text" id="idUsuario" name="idUsuario" required><br><br>
+
+        <label for="nombreObra">Nombre de la Obra:</label>
+        <input type="text" id="nombreObra" name="nombreObra" required><br><br>
+
+        <label for="georeferencia">Georeferencia:</label>
+        <input type="file" id="georeferencia" name="georeferencia" required><br><br>
+
+        <label for="estadoObra">Estado de la Obra:</label>
+        <input type="text" id="estadoObra" name="estadoObra" required><br><br>
+
+        <label for="fechaInicioObra">Fecha de Inicio de la Obra:</label>
+        <input type="date" id="fechaInicioObra" name="fechaInicioObra" required><br><br>
+
+        <label for="archivos">Archivos:</label>
+        <input type="file" id="archivos" name="archivos"><br><br>
+
+        <input type="submit" value="Añadir Obra">
+    </form>
+
+{% endblock %}

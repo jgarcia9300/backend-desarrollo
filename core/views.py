@@ -4,6 +4,8 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login
 from .forms import *
+from django.http import HttpResponse
+from .models import *
 
 
 #@login required se utiliza para validar que el usuario este logueado para poder acceder a la pagina respectiva
@@ -64,7 +66,39 @@ def homeGerente(request):
 @login_required
 def homeDirector(request): #Pagina de inicio del director
     if request.user.groups.filter(name='Director').exists():#Se realiza otra validacion al momento de ingresar a la pagina
-     return render(request,'frontend/Director/homeDirector.html')
+        group_Director = get_object_or_404(Group, name='Director')
+        users_Director = group_Director.user_set.all()
+        search_query = request.GET.get('search', '')
+
+        group_Capataz = get_object_or_404(Group, name='Capataz')
+        users_Capataz = group_Capataz.user_set.all()
+        search_query = request.GET.get('search', '')
+
+        
+        search_query = request.GET.get('search', '')
+
+        if search_query:
+            users_Capataz = users_Capataz.filter(username__icontains=search_query)
+            users_Director = users_Director.filter(username__icontains=search_query)
+
+        all_user = list(users_Capataz)+list(users_Director)
+        if request.method == 'POST':
+            user_id = request.POST.get('user_id')
+            try:
+                user = User.objects.get(id=user_id)
+                user.delete()
+                # Redirige a donde quieras después de eliminar el usuario
+                return redirect('group_users')
+            except User.DoesNotExist:
+                # Manejar el caso donde el usuario no existe
+                pass
+        return render(request, 'frontend/Director/homeDirector.html',
+                {
+                'group_capataz': group_Capataz,
+                'users_capataz': users_Capataz,
+                'group_gerente': group_Director,
+                'users_gerente': users_Director,
+                'all_user': all_user})
     
 def exit(request): # el exit define que el usuario cerro sesión y redirige al home donde al no estar logueado se va directamente al login
     logout(request)
@@ -107,6 +141,32 @@ def group_users(request): #Esta es una prueba para listar usuarios perteneciente
             'all_user': all_user
             })
 
+@login_required
+def añadirObras(request): 
+    if request.method == 'POST':
+        idObra = request.POST.get('idObra')
+        idUsuario = request.POST.get('idUsuario')
+        nombreObra = request.POST.get('nombreObra')
+        georeferencia = request.FILES.get('georeferencia')  # Asegúrate de que coincida con el campo en el formulario
+        estadoObra = request.POST.get('estadoObra')
+        fechaInicioObra = request.POST.get('fechaInicioObra')
+        archivos = request.FILES.get('archivos')
+
+        # Crear instancia del modelo Obra y guardar en la base de datos
+        obra = Obra(
+            idObra=idObra,
+            idUsuario=idUsuario,
+            nombreObra=nombreObra,
+            georeferencia=georeferencia,
+            estadoObra=estadoObra,
+            fechaInicioObra=fechaInicioObra,
+            archivos=archivos
+        )
+        obra.save()
+        return HttpResponse('Obra añadida con exito')
+    else:
+        return render(request,'frontend/añadirObras.html')
+
 
 def prueba(request): 
     
@@ -121,6 +181,7 @@ def dashboard(request):
 def graficas(request): 
     
         return render(request,'frontend/Gerente/graficas.html')
+
 
 
 

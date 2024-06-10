@@ -27,4 +27,5 @@ urlpatterns = [
     path ('prueba/',prueba, name='prueba'), #URL que realiza el logout
     path ('dashboard/',dashboard, name='dashboard'), #URL que nos manda al dashboard
     path ('graficas/',graficas, name='graficas'), #URL que nos manda a las graficas. 
+    path('añadir_obras/', añadirObras, name='añadir_obras'),
 ]
