@@ -19,51 +19,52 @@ def home(request):
 @login_required
 def homeCapataz(request): #Pagina de inicio de los Capataz
     if request.user.groups.filter(name='Capataz').exists():#Se realiza otra validacion al momento de ingresar a la pagina
-        return render(request,'frontend/homeCapataz.html')
+        return render(request,'frontend/Capataz/homeCapataz.html')
 
 @login_required
 def homeGerente(request):
+    if request.user.is_superuser:
     # Obtener los grupos y sus usuarios
-    group_Director = get_object_or_404(Group, name='Director')
-    users_Director = group_Director.user_set.all()
+        group_Director = get_object_or_404(Group, name='Director')
+        users_Director = group_Director.user_set.all()
 
-    group_Capataz = get_object_or_404(Group, name='Capataz')
-    users_Capataz = group_Capataz.user_set.all()
+        group_Capataz = get_object_or_404(Group, name='Capataz')
+        users_Capataz = group_Capataz.user_set.all()
 
-    # Obtener los términos de búsqueda
-    search_query_director = request.GET.get('search_director', '')
-    search_query_capataz = request.GET.get('search_capataz', '')
+        # Obtener los términos de búsqueda
+        search_query_director = request.GET.get('search_director', '')
+        search_query_capataz = request.GET.get('search_capataz', '')
 
-    # Filtrar los usuarios según los términos de búsqueda
-    if search_query_director:
-        users_Director = users_Director.filter(username__icontains=search_query_director)
-    
-    if search_query_capataz:
-        users_Capataz = users_Capataz.filter(username__icontains=search_query_capataz)
+        # Filtrar los usuarios según los términos de búsqueda
+        if search_query_director:
+            users_Director = users_Director.filter(username__icontains=search_query_director)
+        
+        if search_query_capataz:
+            users_Capataz = users_Capataz.filter(username__icontains=search_query_capataz)
 
-    if request.user.is_superuser:  # Verificar si el usuario es superuser
-        if request.method == 'POST':
-            form = CustomUserCreationForm(request.POST)
-            if form.is_valid():
-                user = form.save()  # Guardar el nuevo usuario
-                group = form.cleaned_data['group']
-                group.user_set.add(user)  # Añadir el usuario al grupo
-                return redirect('homeGerente')
-        else:
-            form = CustomUserCreationForm()
+        if request.user.is_superuser:  # Verificar si el usuario es superuser
+            if request.method == 'POST':
+                form = CustomUserCreationForm(request.POST)
+                if form.is_valid():
+                    user = form.save()  # Guardar el nuevo usuario
+                    group = form.cleaned_data['group']
+                    group.user_set.add(user)  # Añadir el usuario al grupo
+                    return redirect('homeGerente')
+            else:
+                form = CustomUserCreationForm()
 
-        return render(request, 'frontend/Gerente/homeGerente.html', {
-            'group_capataz': group_Capataz,
-            'users_capataz': users_Capataz,
-            'group_gerente': group_Director,
-            'users_gerente': users_Director,
-            'form': form
-        })
+            return render(request, 'frontend/Gerente/homeGerente.html', {
+                'group_capataz': group_Capataz,
+                'users_capataz': users_Capataz,
+                'group_gerente': group_Director,
+                'users_gerente': users_Director,
+                'form': form
+            })
 
 @login_required
 def homeDirector(request): #Pagina de inicio del director
     if request.user.groups.filter(name='Director').exists():#Se realiza otra validacion al momento de ingresar a la pagina
-     return render(request,'frontend/homeDirector.html')
+     return render(request,'frontend/Director/homeDirector.html')
     
 def exit(request): # el exit define que el usuario cerro sesión y redirige al home donde al no estar logueado se va directamente al login
     logout(request)
@@ -112,8 +113,10 @@ def prueba(request):
         return render(request,'frontend/prueba.html')
 
 def dashboard(request): 
-    
+    if request.user.is_superuser:
         return render(request,'frontend/Gerente/dashboard.html')
+    elif request.user.groups.filter(name='Director').exist():
+        return render(request,'frontend/Director/homeDirector.html')
 
 def graficas(request): 
     
