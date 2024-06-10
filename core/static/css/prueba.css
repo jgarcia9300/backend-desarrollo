@@ -622,3 +622,10 @@ body.dark {
     min-width: 420px;
   }
 }
+
+.container {
+  border-radius: 20px;
+  background: var(--light) !important;
+  padding: 24px;
+  overflow-x: auto;
+}

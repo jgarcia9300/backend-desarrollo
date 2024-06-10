@@ -30,23 +30,27 @@
               <th>Usuario</th>
               <th>Nombre</th>
               <th>ID</th>
+              <th>Grupo</th>
             </tr>
           </thead>
           <tbody>
-            {% for user in users %}
+            {% for user in all_user %}
             <tr>
-              <td>
-                <p>{{ user.username }}</p>
-              </td>
-              <td>
-                {{ user.first_name }}
-              </td>
-              <td>
-                {{ user.id }}
-              </td>
+                <td>
+                    <p>{{ user.username }}</p>
+                </td>
+                <td>
+                    {{ user.first_name }}
+                </td>
+                <td>
+                    {{ user.id }}
+                </td>
+                <td>
+                    {{ user.groups.first.name }}  <!-- Obtiene el nombre del primer grupo al que pertenece el usuario -->
+                </td>
             </tr>
             {% endfor %}
-          </tbody>
+        </tbody>
         </table>
       </div>
     </div>
