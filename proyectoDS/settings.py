@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-2)q)z44z3d!y1^_=7x0$(wr8aki&u-5l2^$urldto7i%c^e#-c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -134,6 +134,7 @@ USE_TZ = True
 #Acceso a las URLS Static donde se alojan los archivos .css, imagenes y demas 
 
 STATIC_URL = '/core/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'core', 'static')]
 
 #Login y Logout
