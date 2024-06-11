@@ -251,6 +251,7 @@ def act_obra(request,id):
         actualizarObra.save()
         return redirect("listar_obras")
 
+
 def informes (request):
     if request.method == 'POST':
         formInformes = InformesForm(request.POST)
