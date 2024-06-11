@@ -45,7 +45,7 @@
 
   <div class="order">
     <div class="head">
-      <h3>Usuarios Gerente</h3>
+      <h3>Usuarios Director</h3>
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Registrar
         Usuario</button>
 
@@ -67,7 +67,91 @@
         </tr>
       </thead>
       <tbody>
-        {% for user in users_gerente %}
+        {% for user in users_director %}
+        <tr>
+          <td>
+            <p>{{ user.username }}</p>
+          </td>
+          <td>
+            {{ user.first_name }}
+          </td>
+          <td>
+            {{ user.id }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="table-data">
+  <div class="order">
+    <div class="head">
+      <h3>Ayudantes</h3>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Registrar
+        Usuario</button>
+
+      <!-- Formulario de búsqueda para Usuarios Ayudantes -->
+      <form action="{% url 'homeGerente' %}" method="GET" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search"
+          name="search_capataz" value="{{ request.GET.search_capataz }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Nombre</th>
+          <th>ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users_ayudante %}
+        <tr>
+          <td>
+            <p>{{ user.username }}</p>
+          </td>
+          <td>
+            {{ user.first_name }}
+          </td>
+          <td>
+            {{ user.id }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="order">
+    <div class="head">
+      <h3>Peones</h3>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Registrar
+        Usuario</button>
+
+      <!-- Formulario de búsqueda para Usuarios Peones -->
+      <form action="{% url 'homeGerente' %}" method="GET" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search"
+          name="search_director" value="{{ request.GET.search_director }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Nombre</th>
+          <th>ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users_peon %}
         <tr>
           <td>
             <p>{{ user.username }}</p>

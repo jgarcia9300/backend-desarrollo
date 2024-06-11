@@ -8,25 +8,66 @@
         <label for="idObra">ID Obra:</label>
         <input type="text" id="idObra" name="idObra" required><br><br>
         
-        <label for="idUsuario">ID Usuario:</label>
-        <input type="text" id="idUsuario" name="idUsuario" required><br><br>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">Director</label>
+            <select class="form-select" id="inputGroupSelect01" name="idDirector">
+              <option selected>Director Seleccionado </option>
+              {% for user in users_director %}
+              <option value={{ user.id }}>{{ user.first_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">Capataz</label>
+            <select class="form-select" id="inputGroupSelect01" name="idCapataz">
+              <option selected>Capataz Asignado </option>
+              {% for user in users_capataz %}
+              <option value={{ user.id }}>{{ user.first_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">Ayudante</label>
+            <select class="form-select" id="inputGroupSelect01" name="idAyudante">
+              <option selected>Ayudante Asignado </option>
+              {% for user in users_ayudante %}
+              <option value={{ user.id }}>{{ user.first_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">Peon</label>
+            <select class="form-select" id="inputGroupSelect01" name="idPeon">
+              <option selected>Peon Asignado </option>
+              {% for user in users_peon %}
+              <option value={{ user.id }}>{{ user.first_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
 
         <label for="nombreObra">Nombre de la Obra:</label>
         <input type="text" id="nombreObra" name="nombreObra" required><br><br>
-
-        <label for="georeferencia">Georeferencia:</label>
-        <input type="file" id="georeferencia" name="georeferencia" required><br><br>
-
-        <label for="estadoObra">Estado de la Obra:</label>
-        <input type="text" id="estadoObra" name="estadoObra" required><br><br>
+        
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">Estado de la Obra</label>
+            <select class="form-select" id="inputGroupSelect01"name="estadoObra">
+              <option selected>... </option>
+              <option value='Complete'>Completada</option>
+              <option value='Pending'>Asignada</option>
+              <option value='Process'>En Proceso</option>
+            </select>
+          </div>
 
         <label for="fechaInicioObra">Fecha de Inicio de la Obra:</label>
         <input type="date" id="fechaInicioObra" name="fechaInicioObra" required><br><br>
 
-        <label for="archivos">Archivos:</label>
-        <input type="file" id="archivos" name="archivos"><br><br>
-
         <input type="submit" value="Añadir Obra">
     </form>
+
+    
+    <div class="input-group">
+        <input type="file" class="form-control" id="archivos" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+      </div>
 
 {% endblock %}
