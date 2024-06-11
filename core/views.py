@@ -8,6 +8,9 @@ from django.http import HttpResponse
 from .models import *
 
 
+
+
+
 #@login required se utiliza para validar que el usuario este logueado para poder acceder a la pagina respectiva
 @login_required
 def home(request):
@@ -182,6 +185,27 @@ def graficas(request):
     
         return render(request,'frontend/Gerente/graficas.html')
 
+@login_required
+def listarObras(request):
+        obras = Obra.objects.all()
+        return render(request, 'frontend/listarObras.html', {'obras': obras})
 
+def borrarObra(request,id):
+  borrarObra = Obra.objects.get(idObra=id)
+  borrarObra.delete()
+  return redirect("listar_obras")
 
+def actualizarObra(request,id):
+    actualizarObra = Obra.objects.get(idObra=id)
+    return render(request, "frontend/actualizarObra.html", {'actualizarObra':actualizarObra})
 
+def act_obra(request,id):
+        nombreObra = request.POST.get('nombreObra')
+        estadoObra = request.POST.get('estadoObra')
+        fechaInicioObra = request.POST.get('fechaInicioObra')
+        actualizarObra = Obra.objects.get(idObra=id)
+        actualizarObra.nombreObra = nombreObra
+        actualizarObra.estadoObra = estadoObra
+        actualizarObra.fechaInicioObra = fechaInicioObra
+        actualizarObra.save()
+        return redirect("listar_obras")

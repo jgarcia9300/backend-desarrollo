@@ -1,0 +1,31 @@
+{% extends 'frontend/Director/base.html' %}
+
+{% block content %}
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">id Obra</th>
+      <th scope="col">Nombre de Obra</th>
+      <th scope="col">Estado de Obra</th>
+      <th scope="col">Fecha Inicio de Obra</th>
+      <th scope="col">Actualizar Obra</th>
+      <th scope="col">Borrar Obra</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      {% for obra in obras %}
+      <th scope="row">{{ obra.idObra }}</th>
+      <td>{{ obra.nombreObra }}</td>
+      <td>{{ obra.estadoObra }}</td>
+      <td>{{obra.fechaInicioObra}}</td>
+      <td><a href="actualizar_obra/{{obra.idObra}}"><button id="up" class="btn btn-sm btn-warning" href="">Actualizar</button></td></a>
+			<td><a href="borrar_obra/{{obra.idObra}}"><button id="del" class="btn btn-sm btn-danger" href="">Borrar</button></td</a>
+      <br>
+    </tr>
+     {% endfor %}
+  </tbody>
+</table>
+
+
+{% endblock %}

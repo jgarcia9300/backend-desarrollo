@@ -1,0 +1,31 @@
+{% extends 'frontend/Director/base.html' %}
+
+{% block content %}
+
+<h1>Añadir una Nueva Obra</h1>
+    <form method="post" action="{% url 'act_obra' actualizarObra.idObra %}" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="nombreObra">Nombre de la Obra:</label>
+        <input type="text" id="nombreObra" name="nombreObra" required value="{{actualizarObra.nombreObra}}"><br><br>
+
+        <label for="estadoObra">Estado de la Obra:</label>
+        <input type="text" id="estadoObra" name="estadoObra" required value="{{actualizarObra.estadoObra}}"><br><br>
+
+        <label for="idUsuario">ID Usuario:</label>
+        <input type="text" id="idUsuario" name="idUsuario" required value="{{actualizarObra.idUsuario}}""><br><br>
+
+        <label for="georeferencia">Georeferencia:</label>
+        <input type="file" id="georeferencia" name="georeferencia" required value="{{actualizarObra.georeferencia}}""><br><br>
+
+        <label for="fechaInicioObra">Fecha de Inicio de la Obra:</label>
+        <input type="date" id="fechaInicioObra" name="fechaInicioObra" required value="{{fechaInicioObra.fechaInicioObra}}""><br><br>
+
+        <label for="archivos">Archivos:</label>
+        <input type="file" id="archivos" name="archivos" value="{{fechaInicioObra.archivos}}""><br><br>
+
+
+        <input type="submit" value="Actualizar Obra">
+    </form>
+
+{% endblock %}

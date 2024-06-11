@@ -28,4 +28,8 @@ urlpatterns = [
     path ('dashboard/',dashboard, name='dashboard'), #URL que nos manda al dashboard
     path ('graficas/',graficas, name='graficas'), #URL que nos manda a las graficas. 
     path('añadir_obras/', añadirObras, name='añadir_obras'),
+    path('listar_obras/', listarObras, name='listar_obras'),
+    path('listar_obras/borrar_obra/<int:id>/', borrarObra, name='borrar_obra'),
+    path('listar_obras/actualizar_obra/<int:id>/', actualizarObra, name='actualizar_obra'),
+    path('listar_obras/actualizar_obra/act_obra/<int:id>/', act_obra, name='act_obra'),
 ]
