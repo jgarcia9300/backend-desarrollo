@@ -13,9 +13,9 @@
     </tr>
   </thead>
   <tbody>
+    {% for obra in obras %}        
     <tr>
-      {% for obra in obras %}
-      <th scope="row">{{ obra.idObra }}</th>
+      <th scope="row">{{ obra.idObra }} </th>
       <td>{{ obra.nombreObra }}</td>
       <td>{{ obra.estadoObra }}</td>
       <td>{{obra.fechaInicioObra}}</td>
@@ -23,8 +23,10 @@
 			<td><a href="borrar_obra/{{obra.idObra}}"><button id="del" class="btn btn-sm btn-danger" href="">Borrar</button></td</a>
       <br>
     </tr>
-     {% endfor %}
+    {% endfor %}
+
   </tbody>
+
 </table>
 
 

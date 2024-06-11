@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Modificar Obra</h1>
+<h1>Añadir una Nueva Obra</h1>
     <form method="post" action="{% url 'act_obra' actualizarObra.idObra %}" enctype="multipart/form-data">
         {% csrf_token %}
 
