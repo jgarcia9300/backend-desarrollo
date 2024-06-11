@@ -231,8 +231,29 @@ def graficas(request):
 
 @login_required
 def listarObras(request):
+        
+        group_Ayudante = get_object_or_404(Group, name='Ayudante')
+        users_Ayudante = group_Ayudante.user_set.all()
+
+        group_Peon = get_object_or_404(Group, name='Peon')
+        users_Peon = group_Peon.user_set.all()
+
+        group_Director = get_object_or_404(Group, name='Director')
+        users_Director = group_Director.user_set.all()
+
+        group_Capataz = get_object_or_404(Group, name='Capataz')
+        users_Capataz = group_Capataz.user_set.all()
+
         obras = Obra.objects.all()
-        return render(request, 'frontend/listarObras.html', {'obras': obras})
+        return render(request, 'frontend/listarObras.html', {'obras': obras, 
+                'group_capataz': group_Capataz,
+                'users_capataz': users_Capataz,
+                'group_director': group_Director,
+                'users_director': users_Director,
+                'group_ayudante': group_Ayudante,
+                'users_ayudante': users_Ayudante,
+                'group_peon': group_Peon,
+                'users_peon': users_Peon,})
 
 def borrarObra(request,id):
   borrarObra = Obra.objects.get(idObra=id)

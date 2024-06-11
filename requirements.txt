@@ -1,5 +1,7 @@
-Django 5.0.3
-Pillow 9.0.1
-Crispy 2.1
-Bootstrap 
-python 3.10.0
+
+=======
+crispy-bootstrap5==2024.2
+Django==4.2.13
+django-crispy-forms==2.1
+psycopg2==2.9.9
+>>>>>>> 593d9017a1e57b35a40a2a10bceea8817858c0c6
