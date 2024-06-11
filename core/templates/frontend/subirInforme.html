@@ -1,0 +1,17 @@
+{% extends 'frontend/Director/base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+<h1>Subir Informe</h1>
+
+<form method="post" action="{% url 'subirInforme' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ formInformes|crispy }}
+    <button class="btn btn-sm btn-primary aling-items-center" type="submit">Registrar Informe</button>
+
+
+    </form>
+
+{% endblock %}

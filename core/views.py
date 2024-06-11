@@ -23,8 +23,11 @@ def home(request):
         
 @login_required
 def homeCapataz(request): #Pagina de inicio de los Capataz
+    obras = Obra.objects.all()
+
     if request.user.groups.filter(name='Capataz').exists():#Se realiza otra validacion al momento de ingresar a la pagina
-        return render(request,'frontend/Capataz/homeCapataz.html')
+        
+        return render(request,'frontend/Capataz/homeCapataz.html',{'obras': obras})
 
 @login_required
 def homeGerente(request):
@@ -251,15 +254,23 @@ def act_obra(request,id):
         actualizarObra.save()
         return redirect("listar_obras")
 
-
-def informes (request):
+def informes(request):
+    obras = Obra.objects.all()
+    formInformes = InformesForm()  # Inicializar el formulario fuera del bloque 'if'
     if request.method == 'POST':
         formInformes = InformesForm(request.POST)
         if formInformes.is_valid():
-            formInformes.save()  # Guardar el nuevo usuario
+            formInformes.save()  # Guardar el nuevo informe
             return redirect('asignarTareas')
-        else:
-            formInformes = InformesForm()
-    return render(request,"frontend/asignarTareas",{'formInformes' : formInformes})
+    
+    return render(request, "frontend/subirInforme.html", {'formInformes': formInformes, 'obras': obras})
 
-
+def informes(request):
+    formInformes = InformesForm()  # Inicializar el formulario fuera del bloque 'if'
+    if request.method == 'POST':
+        formInformes = InformesForm(request.POST)
+        if formInformes.is_valid():
+            formInformes.save()  # Guardar el nuevo informe
+            return redirect('asignarTareas')
+    
+    return render(request, "frontend/subirInforme.html", {'formInformes': formInformes})

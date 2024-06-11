@@ -29,4 +29,16 @@ class Avances(models.Model):
 
     class Meta:
         db_table='Avances'
+
+class asignarTareas(models.Model):
+    idDirector = models.IntegerField(null=True,blank=True)
+    idCapataz = models.IntegerField(null=True, blank=True)
+    idAyudante = models.IntegerField(null=True, blank=True)
+    idPeon = models.IntegerField(null=True, blank=True)
+    descripcion = models.TextField()
+
+    class Meta:
+        db_table='asignarTareas'
+
+
 # Create your models here.

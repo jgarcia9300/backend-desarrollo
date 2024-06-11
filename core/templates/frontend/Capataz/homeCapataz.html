@@ -90,7 +90,7 @@
         <div class="table-data">
           <div class="order">
             <div class="head">
-              <h3>Recent Orders</h3>
+              <h3>Obras</h3>
               <i class="fas fa-search"></i>
               <i class="fas fa-filter"></i>
             </div>
@@ -98,60 +98,27 @@
             <table>
               <thead>
                 <tr>
-                  <th>User</th>
-                  <th>Order Date</th>
+                  <th>ObraID</th>
+                  <th>Fecha de Inicio</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody>
+                {% for obra in obras %}
                 <tr>
-                  <td>
-                    <img src="profile.png" alt="">
-                    <p>User Name</p>
-                  </td>
-                  <td>07-05-2023</td>
-                  <td><span class="status pending">Pending</span></td>
+                    <td>{{ obra.id }}</td>
+                    <td>{{obra.fechaInicioObra}}</td>
+                    <td><span class="status {{obra.estadoObra}}">{{ obra.estadoObra }}</span></td>
                 </tr>
-                <tr>
-                  <td>
-                    <img src="profile.png" alt="">
-                    <p>User Name</p>
-                  </td>
-                  <td>07-05-2023</td>
-                  <td><span class="status pending">Pending</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="profile.png" alt="">
-                    <p>User Name</p>
-                  </td>
-                  <td>07-05-2023</td>
-                  <td><span class="status process">Process</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="profile.png" alt="">
-                    <p>User Name</p>
-                  </td>
-                  <td>07-05-2023</td>
-                  <td><span class="status process">Process</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="profile.png" alt="">
-                    <p>User Name</p>
-                  </td>
-                  <td>07-05-2023</td>
-                  <td><span class="status complete">Complete</span></td>
-                </tr>
+            {% endfor %}
               </tbody>
             </table>
           </div>
 
           <div class="todo">
             <div class="head">
-              <h3>Todos</h3>
-              <i class="fas fa-plus"></i>
+              <h3>Subir Informe </h3>
+              <a href="{% url 'subirInforme' %}"><i class="fas fa-plus"></i></a>
               <i class="fas fa-filter"></i>
             </div>
 

@@ -13,4 +13,8 @@ class InformesForm(forms.ModelForm):
     class Meta:
         model = informes
         fields = ['idInforme','idUsuario','georeferencias','documento','notasDeVoz']
-        
+
+class AsignarTareasForm(forms.ModelForm):
+    class Meta:
+        model = asignarTareas
+        fields = ['idDirector','idCapataz','idPeon','idAyudante','descripcion']
