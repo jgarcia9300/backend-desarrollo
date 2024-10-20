@@ -59,6 +59,19 @@ class AvancesModelTest(TestCase):
         self.assertEqual(avance.idUsuario, 101)
         self.assertEqual(avance.porcentajeAvance, 75)
 
+    def test_update_avance(self):
+        # Crear y luego actualizar una instancia de Avances
+        avance = Avances.objects.create(
+            idUsuario=101,
+            porcentajeAvance=75
+        )
+        avance.porcentajeAvance = 85
+        avance.save()
+
+        # Verificar que los cambios se hayan guardado
+        self.assertEqual(avance.porcentajeAvance, 85)
+    
+
 
 class AsignarTareasModelTest(TestCase):
     def test_create_asignar_tareas(self):
@@ -72,3 +85,4 @@ class AsignarTareasModelTest(TestCase):
         )
         self.assertEqual(tarea.idDirector, 101)
         self.assertEqual(tarea.descripcion, "Tarea de prueba")
+
