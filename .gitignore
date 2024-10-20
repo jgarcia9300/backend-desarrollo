@@ -1,4 +1,5 @@
 package-lock.json
 proyectoDS/settings.py
-proyectoDS/_pycache_
-core/_pycache_
+proyectoDS/__pycache__
+core/__pycache__
+.vscode/
