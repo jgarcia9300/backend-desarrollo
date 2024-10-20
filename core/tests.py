@@ -49,3 +49,13 @@ class InformesModelTest(TestCase):
         self.assertTrue(informe.notasDeVoz.name.startswith("media/audio"))
         self.assertTrue(informe.notasDeVoz.name.endswith(".mp3"))
 
+class AvancesModelTest(TestCase):
+    def test_create_avance(self):
+        # Crear una instancia de Avances y verificar los campos
+        avance = Avances.objects.create(
+            idUsuario=101,
+            porcentajeAvance=75
+        )
+        self.assertEqual(avance.idUsuario, 101)
+        self.assertEqual(avance.porcentajeAvance, 75)
+
