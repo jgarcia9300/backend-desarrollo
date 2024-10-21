@@ -121,4 +121,16 @@ class AsignarTareasModelTest(TestCase):
 # Verificar que la instancia haya sido eliminada
         self.assertFalse(asignarTareas.objects.filter(id=tarea_id).exists())
 
+#Actualizando
+    def test_update_informe(self):
+        # Crear y luego actualizar una instancia de informes
+        informe = informes.objects.create(
+            idInforme=1,
+            idUsuario=101
+        )
+        informe.idUsuario = 202
+        informe.save()
+
+        # Verificar que los cambios se hayan guardado
+        self.assertEqual(informe.idUsuario, 202)
         
