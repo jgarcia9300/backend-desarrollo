@@ -31,38 +31,59 @@ def homeCapataz(request): #Pagina de inicio de los Capataz
 
 @login_required
 def homeGerente(request):
-    if not request.user.is_superuser:
-        return redirect('home')  # Redirigir si no es superusuario
+    if request.user.is_superuser:
+    # Obtener los grupos y sus usuarios
+        group_Ayudante = get_object_or_404(Group, name='Ayudante')
+        users_Ayudante = group_Ayudante.user_set.all()
 
-    # Obtener grupos y sus usuarios
-    group_names = ['Ayudante', 'Peon', 'Director', 'Capataz']
-    user_groups = {name: get_object_or_404(Group, name=name).user_set.all() for name in group_names}
+        group_Peon = get_object_or_404(Group, name='Peon')
+        users_Peon = group_Peon.user_set.all()
 
-    # Obtener los términos de búsqueda
-    search_queries = {
-        'Director': request.GET.get('search_director', ''),
-        'Capataz': request.GET.get('search_capataz', ''),
-        'Peon': request.GET.get('search_peon', ''),
-        'Ayudante': request.GET.get('search_ayudante', '')
-    }
+        group_Director = get_object_or_404(Group, name='Director')
+        users_Director = group_Director.user_set.all()
 
-    # Filtrar los usuarios según los términos de búsqueda
-    for group_name, query in search_queries.items():
-        if query:
-            user_groups[group_name] = user_groups[group_name].filter(username__icontains=query)
+        group_Capataz = get_object_or_404(Group, name='Capataz')
+        users_Capataz = group_Capataz.user_set.all()
 
-    # Manejar la creación de usuarios
-    form = CustomUserCreationForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
-        user = form.save()
-        group = form.cleaned_data['group']
-        group.user_set.add(user)
-        return redirect('homeGerente')
+        # Obtener los términos de búsqueda
+        search_query_director = request.GET.get('search_director', '')
+        search_query_capataz = request.GET.get('search_capataz', '')
+        search_query_peon = request.GET.get('search_capataz', '')
+        search_query_ayudante = request.GET.get('search_capataz', '')
 
-    return render(request, 'frontend/Gerente/homeGerente.html', {
-        'groups': user_groups,
-        'form': form,
-    })
+        # Filtrar los usuarios según los términos de búsqueda
+        if search_query_director:
+            users_Director = users_Director.filter(username__icontains=search_query_director)
+        
+        if search_query_capataz:
+            users_Capataz = users_Capataz.filter(username__icontains=search_query_capataz)
+        if search_query_peon:
+            users_Director = users_Peon.filter(username__icontains=search_query_director)
+        if search_query_ayudante:
+            users_Director = users_Ayudante.filter(username__icontains=search_query_peon)
+
+        if request.user.is_superuser:  # Verificar si el usuario es superuser
+            if request.method == 'POST':
+                form = CustomUserCreationForm(request.POST)
+                if form.is_valid():
+                    user = form.save()  # Guardar el nuevo usuario
+                    group = form.cleaned_data['group']
+                    group.user_set.add(user)  # Añadir el usuario al grupo
+                    return redirect('homeGerente')
+            else:
+                form = CustomUserCreationForm()
+
+            return render(request, 'frontend/Gerente/homeGerente.html', {
+                'group_capataz': group_Capataz,
+                'users_capataz': users_Capataz,
+                'group_director': group_Director,
+                'users_director': users_Director,
+                'group_ayudante': group_Ayudante,
+                'users_ayudante': users_Ayudante,
+                'group_peon': group_Peon,
+                'users_peon': users_Peon,
+                'form': form
+            })
 
 @login_required
 def homeDirector(request): #Pagina de inicio del director
