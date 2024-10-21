@@ -107,3 +107,7 @@ class AsignarTareasModelTest(TestCase):
         tarea_id = tarea.id
         tarea.delete()
         
+# Verificar que la instancia haya sido eliminada
+        self.assertFalse(asignarTareas.objects.filter(id=tarea_id).exists())
+
+        
