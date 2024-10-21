@@ -256,9 +256,9 @@ def listarObras(request):
                 'users_peon': users_Peon,})
 
 def borrarObra(request,id):
-  borrarObra = Obra.objects.get(idObra=id)
-  borrarObra.delete()
-  return redirect("listar_obras")
+   borrarObra = Obra.objects.get(idObra=id)
+   borrarObra.delete()
+   return redirect("listar_obras")
 
 def actualizarObra(request,id):
     actualizarObra = Obra.objects.get(idObra=id)
