@@ -2,13 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.models import Group
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods, require_POST
 from .forms import *
 from django.http import HttpResponse
 from .models import *
 
 # @login_required se utiliza para validar que el usuario esté logueado para poder acceder a la página respectiva.
 @login_required
+@require_http_methods(["GET"])
 def home(request):
     if request.user.is_superuser:  # Si el usuario es un superuser, accederá al home destinado para el gerente.
         return redirect(dashboard)
@@ -18,6 +19,7 @@ def home(request):
         return redirect(homeCapataz)  # Si no cumple con ninguna de las anteriores, accederá al home del Capataz.
 
 @login_required
+@require_http_methods(["GET"])
 def homeCapataz(request):
     obras = Obra.objects.all()
     if request.user.groups.filter(name='Capataz').exists():
@@ -25,6 +27,7 @@ def homeCapataz(request):
     return redirect('home')
 
 @login_required
+@require_http_methods(["GET", "POST"])
 def homeGerente(request):
     if not request.user.is_superuser:
         return redirect('home')
@@ -75,6 +78,7 @@ def homeGerente(request):
     })
 
 @login_required
+@require_http_methods(["GET", "POST"])
 def homeDirector(request):
     if not request.user.groups.filter(name='Director').exists():
         return redirect('home')
@@ -108,11 +112,29 @@ def homeDirector(request):
         'all_user': all_user
     })
 
-def exit(request):
-    logout(request)
-    return redirect('home')
+@login_required
+@require_POST
+def borrarObra(request, id):
+    if request.user.is_superuser:
+        borrarObra = get_object_or_404(Obra, idObra=id)
+        borrarObra.delete()
+    return redirect("listar_obras")
 
 @login_required
+@require_http_methods(["GET", "POST"])
+def crearObra(request):
+    if request.method == 'POST':
+        form = CrearObraForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_obras')
+    else:
+        form = CrearObraForm()
+
+    return render(request, 'frontend/crearObra.html', {'form': form})
+
+@login_required
+@require_http_methods(["GET", "POST"])
 def group_users(request):
     group_Director = get_object_or_404(Group, name='Director')
     users_Director = group_Director.user_set.all()
@@ -143,35 +165,22 @@ def group_users(request):
         'all_user': all_user
     })
 
+def prueba(request): 
+    
+        return render(request,'frontend/prueba.html')
+
 @login_required
 def dashboard(request):
     if request.user.is_superuser:
         return render(request, 'frontend/Gerente/dashboard.html')
     return redirect('home')
 
-def act_obra(request,id):
-        nombreObra = request.POST.get('nombreObra')
-        estadoObra = request.POST.get('estadoObra')
-        fechaInicioObra = request.POST.get('fechaInicioObra')
-        actualizarObra = Obra.objects.get(idObra=id)
-        actualizarObra.nombreObra = nombreObra
-        actualizarObra.estadoObra = estadoObra
-        actualizarObra.fechaInicioObra = fechaInicioObra
-        actualizarObra.save()
-        return redirect("listar_obras")
-
-def informes(request):
-    obras = Obra.objects.all()
-    formInformes = InformesForm()  # Inicializar el formulario fuera del bloque 'if'
-    if request.method == 'POST':
-        formInformes = InformesForm(request.POST)
-        if formInformes.is_valid():
-            formInformes.save()  # Guardar el nuevo informe
-            return redirect('asignarTareas')
+def graficas(request): 
     
-    return render(request, "frontend/subirInforme.html", {'formInformes': formInformes, 'obras': obras})
+        return render(request,'frontend/Gerente/graficas.html')
 
 @login_required
+@require_http_methods(["POST"])
 def añadirObras(request): 
 
     group_Ayudante = get_object_or_404(Group, name='Ayudante')
@@ -222,20 +231,13 @@ def añadirObras(request):
                 'users_peon': users_Peon,
         })
 
-@require_POST
-@login_required
-def borrarObra(request, id):
-    if request.user.is_superuser:
-        borrarObra = get_object_or_404(Obra, idObra=id)
-        borrarObra.delete()
-    return redirect("listar_obras")
-
 @login_required
 def listarObras(request):
     obras = Obra.objects.all()
     return render(request, "frontend/listarObras.html", {'obras': obras})
 
 @login_required
+@require_http_methods(["GET", "POST"])
 def actualizarObra(request, id):
     actualizarObra = get_object_or_404(Obra, idObra=id)
     if request.method == 'POST':
@@ -251,27 +253,30 @@ def actualizarObra(request, id):
 
     return render(request, "frontend/actualizarObra.html", {'actualizarObra': actualizarObra})
 
-@login_required
-def crearObra(request):
+@require_http_methods(["POST"])
+def act_obra(request,id):
+        nombreObra = request.POST.get('nombreObra')
+        estadoObra = request.POST.get('estadoObra')
+        fechaInicioObra = request.POST.get('fechaInicioObra')
+        actualizarObra = Obra.objects.get(idObra=id)
+        actualizarObra.nombreObra = nombreObra
+        actualizarObra.estadoObra = estadoObra
+        actualizarObra.fechaInicioObra = fechaInicioObra
+        actualizarObra.save()
+        return redirect("listar_obras")
+
+@require_http_methods(["POST"])
+def informes(request):
+    obras = Obra.objects.all()
+    formInformes = InformesForm()  # Inicializar el formulario fuera del bloque 'if'
     if request.method == 'POST':
-        form = CrearObraForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('listar_obras')
-    else:
-        form = CrearObraForm()
-
-    return render(request, 'frontend/crearObra.html', {'form': form})
-
-def prueba(request): 
+        formInformes = InformesForm(request.POST)
+        if formInformes.is_valid():
+            formInformes.save()  # Guardar el nuevo informe
+            return redirect('asignarTareas')
     
-        return render(request,'frontend/prueba.html')
+    return render(request, "frontend/subirInforme.html", {'formInformes': formInformes, 'obras': obras})
 
-def graficas(request): 
-    
-        return render(request,'frontend/Gerente/graficas.html')
-
-@login_required
-def verObra(request, id):
-    obra = get_object_or_404(Obra, idObra=id)
-    return render(request, 'frontend/verObra.html', {'obra': obra})
+def exit(request):
+    logout(request)
+    return redirect('home')
