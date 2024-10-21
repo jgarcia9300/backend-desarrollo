@@ -11,7 +11,7 @@ from .models import *
 @login_required
 def home(request):
     if request.user.is_superuser:  # Si el usuario es un superuser, accederá al home destinado para el gerente.
-        return redirect(homeGerente)
+        return redirect(dashboard)
     elif request.user.groups.filter(name='Director').exists():  # Si es un usuario perteneciente al grupo Director.
         return redirect(homeDirector)
     else:
@@ -20,18 +20,15 @@ def home(request):
 @login_required
 def homeCapataz(request):
     obras = Obra.objects.all()
-    # Verificar que el usuario sea parte del grupo 'Capataz'.
     if request.user.groups.filter(name='Capataz').exists():
         return render(request, 'frontend/Capataz/homeCapataz.html', {'obras': obras})
-    return redirect('home')  # Redirigir si no pertenece al grupo.
+    return redirect('home')
 
 @login_required
 def homeGerente(request):
-    # Verificar que el usuario sea superuser.
     if not request.user.is_superuser:
         return redirect('home')
 
-    # Obtener los grupos y sus usuarios.
     group_Ayudante = get_object_or_404(Group, name='Ayudante')
     users_Ayudante = group_Ayudante.user_set.all()
     group_Peon = get_object_or_404(Group, name='Peon')
@@ -41,13 +38,11 @@ def homeGerente(request):
     group_Capataz = get_object_or_404(Group, name='Capataz')
     users_Capataz = group_Capataz.user_set.all()
 
-    # Obtener los términos de búsqueda.
     search_query_director = request.GET.get('search_director', '')
     search_query_capataz = request.GET.get('search_capataz', '')
     search_query_peon = request.GET.get('search_peon', '')
     search_query_ayudante = request.GET.get('search_ayudante', '')
 
-    # Filtrar los usuarios según los términos de búsqueda.
     if search_query_director:
         users_Director = users_Director.filter(username__icontains=search_query_director)
     if search_query_capataz:
@@ -57,13 +52,12 @@ def homeGerente(request):
     if search_query_ayudante:
         users_Ayudante = users_Ayudante.filter(username__icontains=search_query_ayudante)
 
-    # Procesar creación de usuario si el método es POST.
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Guardar el nuevo usuario.
+            user = form.save()
             group = form.cleaned_data['group']
-            group.user_set.add(user)  # Añadir el usuario al grupo.
+            group.user_set.add(user)
             return redirect('homeGerente')
     else:
         form = CustomUserCreationForm()
@@ -82,7 +76,6 @@ def homeGerente(request):
 
 @login_required
 def homeDirector(request):
-    # Verificar que el usuario pertenezca al grupo 'Director'.
     if not request.user.groups.filter(name='Director').exists():
         return redirect('home')
 
@@ -98,7 +91,6 @@ def homeDirector(request):
 
     all_user = list(users_Capataz) + list(users_Director)
 
-    # Manejar la eliminación de usuario solo si el método es POST.
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
         try:
@@ -106,7 +98,6 @@ def homeDirector(request):
             user.delete()
             return redirect('group_users')
         except User.DoesNotExist:
-            # Manejar el caso donde el usuario no existe.
             pass
 
     return render(request, 'frontend/Director/homeDirector.html', {
@@ -135,7 +126,6 @@ def group_users(request):
 
     all_user = list(users_Capataz) + list(users_Director)
 
-    # Manejar la eliminación de usuario solo si el método es POST.
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
         try:
@@ -153,13 +143,97 @@ def group_users(request):
         'all_user': all_user
     })
 
+@login_required
+def dashboard(request):
+    if request.user.is_superuser:
+        return render(request, 'frontend/Gerente/dashboard.html')
+    return redirect('home')
+
+def act_obra(request,id):
+        nombreObra = request.POST.get('nombreObra')
+        estadoObra = request.POST.get('estadoObra')
+        fechaInicioObra = request.POST.get('fechaInicioObra')
+        actualizarObra = Obra.objects.get(idObra=id)
+        actualizarObra.nombreObra = nombreObra
+        actualizarObra.estadoObra = estadoObra
+        actualizarObra.fechaInicioObra = fechaInicioObra
+        actualizarObra.save()
+        return redirect("listar_obras")
+
+def informes(request):
+    obras = Obra.objects.all()
+    formInformes = InformesForm()  # Inicializar el formulario fuera del bloque 'if'
+    if request.method == 'POST':
+        formInformes = InformesForm(request.POST)
+        if formInformes.is_valid():
+            formInformes.save()  # Guardar el nuevo informe
+            return redirect('asignarTareas')
+    
+    return render(request, "frontend/subirInforme.html", {'formInformes': formInformes, 'obras': obras})
+
+@login_required
+def añadirObras(request): 
+
+    group_Ayudante = get_object_or_404(Group, name='Ayudante')
+    users_Ayudante = group_Ayudante.user_set.all()
+
+    group_Peon = get_object_or_404(Group, name='Peon')
+    users_Peon = group_Peon.user_set.all()
+
+    group_Director = get_object_or_404(Group, name='Director')
+    users_Director = group_Director.user_set.all()
+
+    group_Capataz = get_object_or_404(Group, name='Capataz')
+    users_Capataz = group_Capataz.user_set.all()
+
+
+    if request.method == 'POST':
+        idObra = request.POST.get('idObra')
+        idDirector = request.POST.get('idDirector')
+        idCapataz = request.POST.get('idCapataz')
+        idAyudante = request.POST.get('idAyudante')
+        idPeon = request.POST.get('idPeon')
+        nombreObra = request.POST.get('nombreObra')
+        estadoObra = request.POST.get('estadoObra')
+        fechaInicioObra = request.POST.get('fechaInicioObra')
+
+        # Crear instancia del modelo Obra y guardar en la base de datos
+        obra = Obra(
+            idObra=idObra,
+            idDirector = idDirector,
+            idCapataz = idCapataz,
+            idAyudante = idAyudante,
+            idPeon = idPeon,
+            nombreObra=nombreObra,
+            estadoObra=estadoObra,
+            fechaInicioObra=fechaInicioObra,
+        )
+        obra.save()
+        return HttpResponse('Obra añadida con exito')
+    else:
+        return render(request,'frontend/añadirObras.html',{
+                            'group_capataz': group_Capataz,
+                'users_capataz': users_Capataz,
+                'group_director': group_Director,
+                'users_director': users_Director,
+                'group_ayudante': group_Ayudante,
+                'users_ayudante': users_Ayudante,
+                'group_peon': group_Peon,
+                'users_peon': users_Peon,
+        })
+
 @require_POST
 @login_required
 def borrarObra(request, id):
-    if request.user.is_superuser:  # Verificar que el usuario tenga permisos adecuados.
+    if request.user.is_superuser:
         borrarObra = get_object_or_404(Obra, idObra=id)
         borrarObra.delete()
     return redirect("listar_obras")
+
+@login_required
+def listarObras(request):
+    obras = Obra.objects.all()
+    return render(request, "frontend/listarObras.html", {'obras': obras})
 
 @login_required
 def actualizarObra(request, id):
@@ -169,7 +243,6 @@ def actualizarObra(request, id):
         estadoObra = request.POST.get('estadoObra')
         fechaInicioObra = request.POST.get('fechaInicioObra')
 
-        # Validar y guardar la actualización.
         actualizarObra.nombreObra = nombreObra
         actualizarObra.estadoObra = estadoObra
         actualizarObra.fechaInicioObra = fechaInicioObra
@@ -177,3 +250,28 @@ def actualizarObra(request, id):
         return redirect("listar_obras")
 
     return render(request, "frontend/actualizarObra.html", {'actualizarObra': actualizarObra})
+
+@login_required
+def crearObra(request):
+    if request.method == 'POST':
+        form = CrearObraForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_obras')
+    else:
+        form = CrearObraForm()
+
+    return render(request, 'frontend/crearObra.html', {'form': form})
+
+def prueba(request): 
+    
+        return render(request,'frontend/prueba.html')
+
+def graficas(request): 
+    
+        return render(request,'frontend/Gerente/graficas.html')
+
+@login_required
+def verObra(request, id):
+    obra = get_object_or_404(Obra, idObra=id)
+    return render(request, 'frontend/verObra.html', {'obra': obra})
