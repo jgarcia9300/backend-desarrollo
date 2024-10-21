@@ -86,3 +86,28 @@ class AsignarTareasModelTest(TestCase):
         self.assertEqual(tarea.idDirector, 101)
         self.assertEqual(tarea.descripcion, "Tarea de prueba")
 
+    def test_update_asignar_tareas(self):
+        # Crear y luego actualizar una instancia de asignarTareas
+        tarea = asignarTareas.objects.create(
+            idDirector=101,
+            descripcion="Tarea inicial"
+        )
+        tarea.descripcion = "Tarea modificada"
+        tarea.save()
+
+        # Verificar que los cambios se hayan guardado
+        self.assertEqual(tarea.descripcion, "Tarea modificada")
+
+    def test_delete_asignar_tareas(self):
+        # Crear y luego eliminar una instancia de asignarTareas
+        tarea = asignarTareas.objects.create(
+            idDirector=101,
+            descripcion="Tarea de prueba"
+        )
+        tarea_id = tarea.id
+        tarea.delete()
+        
+# Verificar que la instancia haya sido eliminada
+        self.assertFalse(asignarTareas.objects.filter(id=tarea_id).exists())
+
+        
