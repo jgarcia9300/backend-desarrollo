@@ -36,7 +36,6 @@ class InformesModelTest(TestCase):
             documento=doc_file,
             notasDeVoz=audio_file
         )
-
         self.assertEqual(informe.idInforme, 1)
         self.assertEqual(informe.idUsuario, 101)
 
@@ -48,6 +47,18 @@ class InformesModelTest(TestCase):
 
         self.assertTrue(informe.notasDeVoz.name.startswith("media/audio"))
         self.assertTrue(informe.notasDeVoz.name.endswith(".mp3"))
+
+    def test_delete_informe(self):
+        # Crear y luego eliminar una instancia de informes
+        informe = informes.objects.create(
+            idInforme=1,
+            idUsuario=101
+        )
+        informe_id = informe.id
+        informe.delete()
+
+        # Verificar que la instancia haya sido eliminada
+        self.assertFalse(informes.objects.filter(id=informe_id).exists())
 
 class AvancesModelTest(TestCase):
     def test_create_avance(self):
