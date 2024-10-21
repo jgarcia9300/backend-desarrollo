@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import *
-from .models import *
+from django.contrib.auth.models import User,Group
+from .models import informes,asignarTareas
 
 class CustomUserCreationForm(UserCreationForm):
     group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True, label='Group')

@@ -15,8 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import * #Se importan todos los def del archivo views
- 
+from .views import home, homeCapataz, homeGerente, homeDirector, exit, group_users, prueba, dashboard, graficas, añadirObras, listarObras, borrarObra, actualizarObra, act_obra, informes
+
 urlpatterns = [
     path('',home, name='home'), #Url vacia, esto significa que cuando se ingresa a la pagina principal sin ninguna extencion se abre el home
     path('homeCapataz/',homeCapataz, name='homeCapataz'), # Url para acceder al home de los capataz

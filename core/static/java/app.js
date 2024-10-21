@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
       iframe.contentWindow.postMessage({
         type: "toggle-dark-mode",
         dark: isDark
-      }, "*");
+      }, "targetOrigin");
     });
   }
 });
