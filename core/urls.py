@@ -35,3 +35,4 @@ urlpatterns = [
     path('subirInforme/',informes, name='subirInforme')
 ]
 #HOLA 
+#ADIOS
