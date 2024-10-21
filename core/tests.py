@@ -98,4 +98,12 @@ class AsignarTareasModelTest(TestCase):
         # Verificar que los cambios se hayan guardado
         self.assertEqual(tarea.descripcion, "Tarea modificada")
 
-
+    def test_delete_asignar_tareas(self):
+        # Crear y luego eliminar una instancia de asignarTareas
+        tarea = asignarTareas.objects.create(
+            idDirector=101,
+            descripcion="Tarea de prueba"
+        )
+        tarea_id = tarea.id
+        tarea.delete()
+        
