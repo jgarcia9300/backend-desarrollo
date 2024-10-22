@@ -34,5 +34,3 @@ urlpatterns = [
     path('listar_obras/actualizar_obra/act_obra/<int:id>/', act_obra, name='act_obra'),
     path('subirInforme/',informes, name='subirInforme')
 ]
-#HOLA 
-#ADIOS
