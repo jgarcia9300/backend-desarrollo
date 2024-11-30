@@ -32,7 +32,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*' , '.vercel.app']
 
 
 # Application definition
@@ -95,6 +95,10 @@ DATABASES = {
         'PASSWORD': os.getenv('PASSWORD'),
         'HOST': os.getenv('HOST'),  # o la dirección de tu servidor de base de datos
         'PORT': os.getenv('PORT'),
+        'OPTIONS': {
+          'sslmode': 'verify-full',
+          "sslrootcert": os.path.join(BASE_DIR, 'prod-ca-2021.crt'),
+        }
     }
 }
 
