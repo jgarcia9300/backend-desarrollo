@@ -7,10 +7,6 @@ from .forms import *
 from django.http import HttpResponse
 from .models import *
 
-
-
-
-
 #@login required se utiliza para validar que el usuario este logueado para poder acceder a la pagina respectiva
 @login_required
 def home(request):
@@ -256,9 +252,9 @@ def listarObras(request):
                 'users_peon': users_Peon,})
 
 def borrarObra(request,id):
-   borrarObra = Obra.objects.get(idObra=id)
-   borrarObra.delete()
-   return redirect("listar_obras")
+  borrarObra = Obra.objects.get(idObra=id)
+  borrarObra.delete()
+  return redirect("listar_obras")
 
 def actualizarObra(request,id):
     actualizarObra = Obra.objects.get(idObra=id)
