@@ -27,7 +27,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'django-insecure-2)q)z44z3d!y1^_=7x0$(wr8aki&u-5l2^$urldto7i%c^e#-c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -90,11 +90,11 @@ WSGI_APPLICATION = 'proyectoDS.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('NAME'),
-        'USER': os.getenv('USER'),
-        'PASSWORD': os.getenv('PASSWORD'),
-        'HOST': os.getenv('HOST'),  # o la dirección de tu servidor de base de datos
-        'PORT': os.getenv('PORT'),
+        'NAME': 'postgres',
+        'USER': 'postgres.qjgdzhiqahwyldvsmauc',
+        'PASSWORD': 'P4pP4qrHGjowtOVr',
+        'HOST': 'aws-0-us-east-1.pooler.supabase.com',  # o la dirección de tu servidor de base de datos
+        'PORT': '6543',
         'OPTIONS': {
           'sslmode': 'verify-full',
           "sslrootcert": os.path.join(BASE_DIR, 'prod-ca-2021.crt'),
